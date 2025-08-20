@@ -1,0 +1,83 @@
+---
+title: コンテキスト管理
+description: Learn how to provide local data via RunContext and expose context to the LLM
+---
+
+import { Aside, Code } from '@astrojs/starlight/components';
+
+export const localContextExample = `import { Agent, RunContext } from '@openai/agents';
+
+interface MyContext {
+  userId: string;
+  preferences: {
+    theme: string;
+    language: string;
+  };
+  database: any;
+}
+
+const agent = new Agent({
+  model: 'gpt-4o-mini',
+  instructions: 'ユーザーコンテキストにアクセスして、パーソナライズされた応答を提供します。',
+  tools: [{
+    type: 'function',
+    function: {
+      name: 'get_user_preferences',
+      description: 'コンテキストからユーザー設定を取得',
+      parameters: { type: 'object', properties: {} }
+    }
+  }],
+});
+
+// コンテキストアクセスを伴うツール実装
+const getUserPreferences = (context: RunContext<MyContext>) => {
+  return {
+    theme: context.data.preferences.theme,
+    language: context.data.preferences.language
+  };
+};
+
+const context: MyContext = {
+  userId: 'user123',
+  preferences: { theme: 'dark', language: 'ja' },
+  database: mockDatabase
+};
+
+const result = await agent.run('現在の設定を教えてください', { context });`;
+
+コンテキストという語は多義的です。重要になるコンテキストには主に 2 つの種類があります:
+
+1.  **ローカルコンテキスト** は、コードが実行中にアクセスできるものです。ツールに必要な依存関係やデータ、`onHandoff` のようなコールバック、ライフサイクルフックなど
+2.  **エージェント/ LLM コンテキスト** は、応答を生成する際に言語モデルが参照できるものです。
+
+## ローカルコンテキスト
+
+ローカルコンテキストは `RunContext<T>` 型で表現します。状態や依存関係を保持する任意のオブジェクトを作成し、それを `Runner.run()` に渡します。すべてのツール呼び出しとフックは `RunContext` のラッパーを受け取り、そのオブジェクトを読み取ったり変更したりできます。
+
+<Code
+  lang="typescript"
+  code={localContextExample}
+  title="ローカルコンテキストの例"
+/>
+
+1 回の実行に参加するすべてのエージェント、ツール、フックは、同じ **型** のコンテキストを使用する必要があります。
+
+ローカルコンテキストは次のような用途に使います:
+
+- 実行に関するデータ（ユーザー名、ID など）
+- ロガーやデータフェッチャーなどの依存関係
+- ヘルパー関数
+
+<Aside type="note">
+  コンテキストオブジェクトは LLM に **送信されません**
+  。純粋にローカルで、自由に読み書きできます。
+</Aside>
+
+## エージェント/ LLM コンテキスト
+
+LLM が呼び出されると、参照できるのは会話履歴から来るデータだけです。追加の情報を利用可能にするには、いくつかの方法があります:
+
+1. エージェントの `instructions` に追加する（システムまたは開発者メッセージとも呼ばれます）。これは静的な文字列でも、コンテキストを受け取り文字列を返す関数でもかまいません
+2. `Runner.run()` を呼び出す際の `input` に含める。これは instructions を使う方法に似ていますが、メッセージを [指揮系統](https://cdn.openai.com/spec/model-spec-2024-05-08.html#follow-the-chain-of-command) の下位に配置できます
+3. 関数ツール経由で公開し、LLM が必要に応じてデータを取得できるようにする
+4. リトリーバルや Web 検索のツールを使用して、ファイル、データベース、または Web の関連データに基づいて応答を根拠づける

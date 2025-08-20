@@ -1,0 +1,184 @@
+---
+title: SDK の設定
+description: Customize API keys, tracing and logging behaviour
+---
+
+import { Code } from '@astrojs/starlight/components';
+
+export const setDefaultOpenAIKeyExample = `import { setDefaultOpenAIKey, Agent } from '@openai/agents';
+
+// すべてのエージェントのデフォルトAPIキーを設定
+setDefaultOpenAIKey(process.env.OPENAI_API_KEY!);
+
+// すべてのエージェントがデフォルトでこのキーを使用します
+const agent = new Agent({
+  model: 'gpt-4o-mini',
+  instructions: '親切なアシスタントです。',
+});
+
+const result = await agent.run('こんにちは！');`;
+
+export const setDefaultOpenAIClientExample = `import OpenAI from 'openai';
+import { setDefaultOpenAIClient, Agent } from '@openai/agents';
+
+// 特定の設定でカスタムOpenAIクライアントを作成
+const customClient = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+  baseURL: 'https://my-custom-openai-proxy.com/v1',
+  defaultHeaders: {
+    'Custom-Header': 'my-value'
+  },
+  timeout: 30000, // 30秒タイムアウト
+});
+
+// すべてのエージェントのデフォルトクライアントとして設定
+setDefaultOpenAIClient(customClient);
+
+const agent = new Agent({
+  model: 'gpt-4o-mini',
+  instructions: '親切なアシスタントです。',
+});`;
+
+export const setOpenAIAPIExample = `import { setOpenAIAPI, Agent } from '@openai/agents';
+
+// OpenAI API設定をグローバルに構成
+setOpenAIAPI({
+  baseURL: 'https://my-openai-proxy.com/v1',
+  defaultHeaders: {
+    'Organization': 'org-123',
+    'Custom-Header': 'value'
+  },
+  timeout: 60000, // 60秒
+  maxRetries: 3,
+});
+
+const agent = new Agent({
+  model: 'gpt-4o-mini',
+  instructions: '親切なアシスタントです。',
+});`;
+
+export const setTracingExportApiKeyExample = `import { setTracingExportApiKey, Agent } from '@openai/agents';
+
+// OpenAIのトレーシングサービスへのトレースエクスポートを有効化
+setTracingExportApiKey(process.env.OPENAI_API_KEY!);
+
+// すべてのエージェント実行が自動的にトレースされます
+const agent = new Agent({
+  model: 'gpt-4o-mini',
+  instructions: '親切なアシスタントです。',
+});
+
+const result = await agent.run('量子コンピューティングについて説明してください');
+// この実行は自動的にトレースされ、OpenAIダッシュボードで確認できます`;
+
+export const setTracingDisabledExample = `import { setTracingDisabled, Agent } from '@openai/agents';
+
+// トレーシングをグローバルに無効化（本番環境やプライバシー保護に有用）
+setTracingDisabled(true);
+
+const agent = new Agent({
+  model: 'gpt-4o-mini',
+  instructions: '親切なアシスタントです。',
+});
+
+// この実行はトレースされません
+const result = await agent.run('機密データを処理してください');
+
+// 必要に応じてトレーシングを再有効化
+setTracingDisabled(false);`;
+
+export const getLoggerExample = `import { getLogger, Agent } from '@openai/agents';
+
+// SDKロガーを取得
+const logger = getLogger();
+
+// ログレベルを設定
+logger.setLevel('debug'); // 'debug', 'info', 'warn', 'error'
+
+// カスタムログハンドラーを追加
+logger.addHandler({
+  log: (level, message, data) => {
+    console.log(\`[\${level.toUpperCase()}] \${message}\`, data);
+    
+    // 外部ログサービスに送信
+    if (level === 'error') {
+      sendToErrorTracking(message, data);
+    }
+  }
+});
+
+const agent = new Agent({
+  model: 'gpt-4o-mini',
+  instructions: '親切なアシスタントです。',
+});
+
+// SDK操作がカスタムハンドラーでログ出力されます
+const result = await agent.run('こんにちは！');`;
+
+## API キーとクライアント
+
+既定では、 SDK は最初にインポートされたときに `OPENAI_API_KEY` 環境変数を読み込みます。環境変数を設定できない場合は、`setDefaultOpenAIKey()` を手動で呼び出せます。
+
+<Code
+  lang="typescript"
+  code={setDefaultOpenAIKeyExample}
+  title="既定の OpenAI キーを設定"
+/>
+
+独自の `OpenAI` クライアントインスタンスを渡すこともできます。そうでない場合は、 SDK が既定のキーを使って自動的に作成します。
+
+<Code
+  lang="typescript"
+  code={setDefaultOpenAIClientExample}
+  title="既定の OpenAI クライアントを設定"
+/>
+
+最後に、 Responses API と Chat Completions API を切り替えることができます。
+
+<Code lang="typescript" code={setOpenAIAPIExample} title="OpenAI API を設定" />
+
+## トレーシング
+
+トレーシングは既定で有効化されており、上記の OpenAI キーを使用します。別のキーは `setTracingExportApiKey()` で設定できます。
+
+<Code
+  lang="typescript"
+  code={setTracingExportApiKeyExample}
+  title="トレーシングのエクスポート API キーを設定"
+/>
+
+トレーシングを完全に無効化することもできます。
+
+<Code
+  lang="typescript"
+  code={setTracingDisabledExample}
+  title="トレーシングを無効化"
+/>
+
+## デバッグログ
+
+SDK はデバッグ用ログに [`debug`](https://www.npmjs.com/package/debug) パッケージを使用します。詳細なログを表示するには、`DEBUG` 環境変数を `openai-agents*` に設定します。
+
+```bash
+export DEBUG=openai-agents*
+```
+
+`@openai/agents` の `getLogger(namespace)` を使用して、自分のモジュール向けの名前空間付きロガーを取得できます。
+
+<Code lang="typescript" code={getLoggerExample} title="ロガーを取得" />
+
+### ログ内の機微なデータ
+
+一部のログにはユーザーデータが含まれる場合があります。次の環境変数を設定して無効化できます。
+
+LLM の入力と出力のロギングを無効化するには：
+
+```bash
+export OPENAI_AGENTS_DONT_LOG_MODEL_DATA=1
+```
+
+ツールの入力と出力のロギングを無効化するには：
+
+```bash
+export OPENAI_AGENTS_DONT_LOG_TOOL_DATA=1
+```

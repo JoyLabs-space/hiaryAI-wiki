@@ -1,0 +1,63 @@
+---
+import { Code, TabItem, Tabs } from '@astrojs/starlight/components';
+
+const helloWorldExample = `import { Agent } from '@hiaryai/agents';
+
+// Create a simple text agent
+const agent = new Agent({
+  model: 'gpt-4o-mini',
+  instructions: 'You are a helpful assistant.',
+});
+
+// Run the agent
+const result = await agent.run('Hello, world!');
+console.log(result.messages[result.messages.length - 1].content);`;
+
+const helloWorldVoiceExample = `import { RealtimeAgent } from '@hiaryai/agents/realtime';
+
+// Create a realtime voice agent
+const agent = new RealtimeAgent({
+  model: 'gpt-4o-realtime-preview-2024-10-01',
+  instructions: 'You are a helpful voice assistant.',
+});
+
+// Start a voice session
+const session = await agent.connect();
+session.on('message', (message) => {
+  console.log('Agent:', message.content);
+});`;
+
+const path = Astro.url.pathname;
+const pathPrefix =
+  path !== '/' ? (!path.endsWith('/') ? path + '/' : path) : '';
+---
+
+<div class="hiaryai-hero">
+  <div class="hiaryai-hero-container flex gap-4">
+    <div class="hiaryai-quickstart flex-1 flex items-center">
+      <div>
+        <h2 class="title"><slot name="title" /></h2>
+        <p>
+          <slot name="description" />
+        </p>
+        <a href={`${pathPrefix}guides/quickstart`} class="hiaryai-hero-cta">
+          <slot name="cta" />
+        </a>
+      </div>
+    </div>
+    <div class="hiaryai-hero-code flex-1 overflow-x-scroll">
+      <Tabs>
+        <TabItem label="Text Agent">
+          <Code lang="typescript" code={helloWorldExample} />
+        </TabItem>
+        <TabItem label="Voice Agent">
+          <Code
+            lang="typescript"
+            code={helloWorldVoiceExample}
+            class="flex-1"
+          />
+        </TabItem>
+      </Tabs>
+    </div>
+  </div>
+</div>

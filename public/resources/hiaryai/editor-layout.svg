@@ -1,0 +1,6 @@
+<svg width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="400" fill="#f8f9fa" stroke="#dee2e6" stroke-width="2"/>
+  <rect x="250" y="125" width="300" height="150" fill="#e9ecef" stroke="#adb5bd" stroke-width="2" rx="8"/>
+  <text x="400" y="190" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#495057">에디터 전체 화면 구성</text>
+  <text x="400" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#6c757d">Placeholder Image</text>
+</svg>

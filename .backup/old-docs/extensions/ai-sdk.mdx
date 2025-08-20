@@ -1,0 +1,145 @@
+---
+title: Using any model with the Vercel's AI SDK
+description: Connect your Agents SDK agents to any model through the Vercel's AI SDK
+---
+
+import { Aside, Steps, Code } from '@astrojs/starlight/components';
+
+export const aiSdkSetupExample = `import { Agent } from '@openai/agents';
+import { createAISDKAdapter } from '@openai/agents/extensions/ai-sdk';
+import { anthropic } from '@ai-sdk/anthropic';
+import { openai } from '@ai-sdk/openai';
+
+// Create adapter with Anthropic's Claude
+const claudeAdapter = createAISDKAdapter({
+  model: anthropic('claude-3-5-sonnet-20241022'),
+  // Optional: configure model parameters
+  settings: {
+    temperature: 0.7,
+    maxTokens: 1000,
+  }
+});
+
+// Use Claude with your agents
+const claudeAgent = new Agent({
+  model: claudeAdapter,
+  instructions: 'You are a helpful assistant powered by Claude.',
+});
+
+// You can also use other AI SDK providers
+const gpt4Adapter = createAISDKAdapter({
+  model: openai('gpt-4-turbo'),
+  settings: {
+    temperature: 0.3,
+    maxTokens: 2000,
+  }
+});
+
+const gpt4Agent = new Agent({
+  model: gpt4Adapter,
+  instructions: 'You are a helpful assistant powered by GPT-4.',
+  tools: [
+    {
+      type: 'function',
+      function: {
+        name: 'get_weather',
+        description: 'Get current weather information',
+        parameters: {
+          type: 'object',
+          properties: {
+            location: { type: 'string', description: 'City name' }
+          },
+          required: ['location']
+        }
+      }
+    }
+  ]
+});
+
+// Run agents with different models
+const claudeResult = await claudeAgent.run('Explain quantum computing');
+const gpt4Result = await gpt4Agent.run('What is the weather in Tokyo?');
+
+console.log('Claude response:', claudeResult.finalOutput);
+console.log('GPT-4 response:', gpt4Result.finalOutput);`;
+
+<Aside type="caution">
+  This adapter is still in beta. You may run into issues with some model
+  providers, especially smaller ones. Please report any issues via [GitHub
+  issues](https://github.com/openai/openai-agents-js/issues) and we'll fix
+  quickly.
+</Aside>
+
+Out of the box the Agents SDK works with OpenAI models through the Responses API or Chat
+Completions API. However, if you would like to use another model, the [Vercel's AI SDK](https://sdk.vercel.ai/) offers a range
+of supported models that can be brought into the Agents SDK through this adapter.
+
+## Setup
+
+<Steps>
+
+1. Install the AI SDK adapter by installing the extensions package:
+
+   ```bash
+   npm install @openai/agents-extensions
+   ```
+
+2. Choose your desired model package from the [Vercel's AI SDK](https://sdk.vercel.ai/docs/models/overview) and install it:
+
+   ```bash
+   npm install @ai-sdk/openai@"^1.0.0"
+   ```
+
+3. Import the adapter and model to connect to your agent:
+
+   ```typescript
+   import { openai } from '@ai-sdk/openai';
+   import { aisdk } from '@openai/agents-extensions';
+   ```
+
+4. Initialize an instance of the model to be used by the agent:
+
+   ```typescript
+   const model = aisdk(openai('o4-mini'));
+   ```
+
+</Steps>
+
+<Aside type="caution">
+  Vercel's AI SDK has recently migrated to v2, however openai agent extensions is not yet compatible with v2.
+  Therefore v1 versions of Vercel's AI SDK has to be installed.
+</Aside>
+
+## Example
+
+<Code lang="typescript" code={aiSdkSetupExample} title="AI SDK Setup" />
+
+## Passing provider metadata
+
+If you need to send provider-specific options with a message, pass them through
+`providerMetadata`. The values are forwarded directly to the underlying AI SDK
+model. For example, the following `providerData` in the Agents SDK
+
+```ts
+providerData: {
+  anthropic: {
+    cacheControl: {
+      type: 'ephemeral';
+    }
+  }
+}
+```
+
+would become
+
+```ts
+providerMetadata: {
+  anthropic: {
+    cacheControl: {
+      type: 'ephemeral';
+    }
+  }
+}
+```
+
+when using the AI SDK integration.

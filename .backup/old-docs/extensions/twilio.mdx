@@ -1,0 +1,281 @@
+---
+title: Using Realtime Agents with Twilio
+description: Connect your Agents SDK agents to Twilio to use voice agents
+---
+
+import { Aside, Steps, Code } from '@astrojs/starlight/components';
+
+export const twilioBasicExample = `import { RealtimeAgent } from '@openai/agents/realtime';
+import { TwilioTransport } from '@openai/agents/extensions/twilio';
+
+const agent = new RealtimeAgent({
+  model: 'gpt-4o-realtime-preview',
+  instructions: 'You are a helpful voice assistant for phone calls. Keep responses concise and clear.',
+  voice: 'alloy',
+  tools: [
+    {
+      type: 'function',
+      function: {
+        name: 'get_customer_info',
+        description: 'Get customer information from database',
+        parameters: {
+          type: 'object',
+          properties: {
+            phone_number: { type: 'string', description: 'Customer phone number' }
+          },
+          required: ['phone_number']
+        }
+      }
+    }
+  ]
+});
+
+// Configure Twilio transport
+const transport = new TwilioTransport({
+  // Twilio webhook will send audio to this endpoint
+  webhookUrl: 'https://your-server.com/twilio/webhook',
+  
+  // Optional: configure audio format
+  audioFormat: {
+    encoding: 'mulaw',
+    sampleRate: 8000,
+    channels: 1
+  },
+  
+  // Optional: configure interruption settings for phone calls
+  interruption: {
+    threshold: 0.3, // Lower threshold for phone call latency
+    debounceMs: 300  // Slightly longer debounce for phone calls
+  }
+});
+
+// Create a session with Twilio transport
+const session = agent.connect(transport);
+
+// Handle incoming Twilio calls
+export async function handleTwilioWebhook(request: Request) {
+  const formData = await request.formData();
+  const callSid = formData.get('CallSid') as string;
+  
+  // Process the incoming call
+  await session.handleTwilioCall({
+    callSid,
+    streamSid: formData.get('StreamSid') as string,
+    from: formData.get('From') as string,
+    to: formData.get('To') as string,
+  });
+  
+  return new Response(
+    \`<?xml version="1.0" encoding="UTF-8"?>
+    <Response>
+      <Connect>
+        <Stream url="wss://your-server.com/twilio/stream/\${callSid}" />
+      </Connect>
+    </Response>\`,
+    { 
+      headers: { 'Content-Type': 'text/xml' }
+    }
+  );
+}`;
+
+export const twilioServerExample = `import express from 'express';
+import { createServer } from 'http';
+import { WebSocketServer } from 'ws';
+import { RealtimeAgent } from '@openai/agents/realtime';
+import { TwilioTransport } from '@openai/agents/extensions/twilio';
+
+const app = express();
+const server = createServer(app);
+const wss = new WebSocketServer({ server });
+
+// Middleware for parsing form data
+app.use(express.urlencoded({ extended: true }));
+
+// Create the voice agent
+const agent = new RealtimeAgent({
+  model: 'gpt-4o-realtime-preview',
+  instructions: \`You are a customer service agent for ACME Corp. 
+  
+Keep responses brief and professional since this is a phone call.
+Ask for caller's name and account number if needed for support.
+Transfer complex issues to human agents when appropriate.\`,
+  voice: 'nova',
+  tools: [
+    {
+      type: 'function',
+      function: {
+        name: 'lookup_account',
+        description: 'Look up customer account information',
+        parameters: {
+          type: 'object',
+          properties: {
+            account_number: { type: 'string' },
+            phone: { type: 'string' }
+          }
+        }
+      }
+    },
+    {
+      type: 'function',
+      function: {
+        name: 'transfer_to_human',
+        description: 'Transfer call to human agent',
+        parameters: {
+          type: 'object',
+          properties: {
+            reason: { type: 'string', description: 'Reason for transfer' }
+          },
+          required: ['reason']
+        }
+      }
+    }
+  ]
+});
+
+// Handle Twilio webhook for call initiation  
+app.post('/twilio/webhook', (req, res) => {
+  const callSid = req.body.CallSid;
+  
+  console.log(\`Incoming call: \${callSid}\`);
+  
+  const twimlResponse = \`<?xml version="1.0" encoding="UTF-8"?>
+  <Response>
+    <Say voice="alice">Please hold while I connect you to our AI assistant.</Say>
+    <Connect>
+      <Stream url="wss://\${req.get('host')}/twilio/stream/\${callSid}" />
+    </Connect>
+  </Response>\`;
+  
+  res.type('text/xml');
+  res.send(twimlResponse);
+});
+
+// Handle WebSocket connections from Twilio
+wss.on('connection', (ws, request) => {
+  const url = new URL(request.url!, \`http://\${request.headers.host}\`);
+  const callSid = url.pathname.split('/').pop();
+  
+  console.log(\`WebSocket connected for call: \${callSid}\`);
+  
+  // Create Twilio transport for this call
+  const transport = new TwilioTransport({
+    websocket: ws,
+    callSid,
+    audioFormat: {
+      encoding: 'mulaw',
+      sampleRate: 8000,
+      channels: 1
+    }
+  });
+  
+  // Connect agent to this call
+  const session = agent.connect(transport);
+  
+  ws.on('close', () => {
+    console.log(\`Call ended: \${callSid}\`);
+    session.disconnect();
+  });
+  
+  ws.on('error', (error) => {
+    console.error(\`WebSocket error for call \${callSid}:\`, error);
+    session.disconnect();
+  });
+});
+
+// Start the server
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(\`Twilio voice agent server running on port \${PORT}\`);
+  console.log(\`Webhook URL: https://your-domain.com/twilio/webhook\`);
+});`;
+
+Twilio offers a [Media Streams API](https://www.twilio.com/docs/voice/media-streams) that sends the
+raw audio from a phone call to a WebSocket server. This set up can be used to connect your
+[voice agents](/openai-agents-js/guides/voice-agents) to Twilio. You can use the default Realtime Session transport
+in `websocket` mode to connect the events coming from Twilio to your Realtime Session. However,
+this requires you to set the right audio format and adjust your own interruption timing as phone
+calls will naturally introduce more latency than a web-based conversation.
+
+To improve the set up experience, we've created a dedicated transport layer that handles the
+connection to Twilio for you, including handling interruptions and audio forwarding for you.
+
+<Aside type="caution">
+  This adapter is still in beta. You may run into edge case issues or bugs.
+  Please report any issues via [GitHub
+  issues](https://github.com/openai/openai-agents-js/issues) and we'll fix
+  quickly.
+</Aside>
+
+## Setup
+
+<Steps>
+
+1. **Make sure you have a Twilio account and a Twilio phone number.**
+
+2. **Set up a WebSocket server that can receive events from Twilio.**
+
+   If you are developing locally, this will require you to configure a local tunnel like
+   this will require you to configure a local tunnel like [`ngrok`](https://ngrok.io/) or
+   [Cloudflare Tunnel](https://developers.cloudflare.com/pages/how-to/preview-with-cloudflare-tunnel/)
+   to make your local server accessible to Twilio. You can use the `TwilioRealtimeTransportLayer`
+   to connect to Twilio.
+
+3. **Install the Twilio adapter by installing the extensions package:**
+
+   ```bash
+   npm install @openai/agents-extensions
+   ```
+
+4. **Import the adapter and model to connect to your `RealtimeSession`:**
+
+   <Code
+     lang="typescript"
+     code={twilioBasicExample.replace(
+       /\n\s+\/\/ @ts-expect-error - this is not defined/g,
+       '',
+     )}
+   />
+
+5. **Connect your `RealtimeSession` to Twilio:**
+
+   ```typescript
+   session.connect({ apiKey: 'your-openai-api-key' });
+   ```
+
+</Steps>
+
+Any event and behavior that you would expect from a `RealtimeSession` will work as expected
+including tool calls, guardrails, and more. Read the [voice agents guide](/openai-agents-js/guides/voice-agents)
+for more information on how to use the `RealtimeSession` with voice agents.
+
+## Tips and Considerations
+
+1. **Speed is the name of the game.**
+
+   In order to receive all the necessary events and audio from Twilio, you should create your
+   `TwilioRealtimeTransportLayer` instance as soon as you have a reference to the WebSocket
+   connection and immediately call `session.connect()` afterwards.
+
+2. **Access the raw Twilio events.**
+
+   If you want to access the raw events that are being sent by Twilio, you can listen to the
+   `transport_event` event on your `RealtimeSession` instance. Every event from Twilio will have a
+   type of `twilio_message` and a `message` property that contains the raw event data.
+
+3. **Watch debug logs.**
+
+   Sometimes you may run into issues where you want more information on what's going on. Using
+   a `DEBUG=openai-agents*` environment variable will show all the debug logs from the Agents SDK.
+   Alternatively, you can enable just debug logs for the Twilio adapter using
+   `DEBUG=openai-agents:extensions:twilio*`.
+
+## Full example server
+
+Below is an example of a full end-to-end example of a WebSocket server that receives requests from
+Twilio and forwards them to a `RealtimeSession`.
+
+<Code
+  lang="typescript"
+  code={twilioServerExample}
+  title="Example server using Fastify"
+/>

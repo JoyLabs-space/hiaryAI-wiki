@@ -1,0 +1,22 @@
+[
+  {
+    "text": "hiaryAI 시작하기",
+    "link": "/getting-started/",
+    "activeMatch": "/getting-started/"
+  },
+  {
+    "text": "핵심 기능",
+    "link": "/features/",
+    "activeMatch": "/features/"
+  },
+  {
+    "text": "실용 가이드",
+    "link": "/guides/",
+    "activeMatch": "/guides/"
+  },
+  {
+    "text": "자주 묻는 질문",
+    "link": "/faq/",
+    "activeMatch": "/faq/"
+  }
+]
