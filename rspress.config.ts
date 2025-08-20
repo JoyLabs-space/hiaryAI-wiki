@@ -16,7 +16,7 @@ export default defineConfig({
       'meta',
       { property: 'og:description', content: 'AI 기반 학습 기록 전문 블로그 플랫폼' },
     ],
-    ['meta', { property: 'og:url', content: 'https://wiki.hiary.ai/' }],
+    ['meta', { property: 'og:url', content: 'https://docs.hiary.ai/' }],
     [
       'meta',
       {
@@ -27,36 +27,35 @@ export default defineConfig({
   ],
   globalStyles: path.join(__dirname, './styles/index.css'),
   themeConfig: {
-    hideNavbar: false,
     darkMode: false,
     searchPlaceholderText: '검색',
-    socialLinks: [],
+    socialLinks: [
+      {
+        icon: 'github',
+        mode: 'link',
+        content: 'https://github.com/JoyLabs-space/hiaryAI-wiki',
+      },
+    ],
     nav: [
       {
-        title: '시작하기',
+        text: '시작하기',
         link: '/getting-started/index',
         position: 'left',
       },
       {
-        title: '핵심 기능',
+        text: '핵심 기능',
         link: '/features/index',
         position: 'left',
       },
       {
-        title: '실용 가이드',
+        text: '실용 가이드',
         link: '/guides/index',
         position: 'left',
       },
       {
-        title: 'FAQ',
+        text: 'FAQ',
         link: '/faq/index',
         position: 'left',
-      },
-      {
-        title: 'hiary.ai 방문',
-        link: 'https://hiary.ai',
-        position: 'right',
-        theme: 'brand',
       },
     ],
     sidebar: {
