@@ -3,29 +3,26 @@ pageType: home
 head:
   - - meta
     - property: og:title
-      content: 테크니컬 라이팅 가이드
+      content: hiaryAI 사용자 가이드
 
 hero:
-  name: 테크니컬 라이팅 가이드
-  tagline: 개발자를 위한 글쓰기 기본기
+  name: hiaryAI 사용자 가이드
+  tagline: AI 기반 학습 기록 전문 블로그 플랫폼
   actions:
     - theme: brand
       text: 시작하기
-      link: /overview
+      link: /getting-started/index
     - theme: alt
-      text: 튜토리얼
-      link: /tutorial/basic-documents
+      text: 빠른 시작
+      link: /getting-started/quick-start
 features:
 
-- title: 문서 유형 정하기
-  details: 문서의 목적에 따라 달라지는 문서 유형과 설계 포인트를 이해해요
-  icon: 🗂️  
-  link: /type/index
-- title: 정보 구조 만들기
-  details: 문서의 구조를 효과적으로 구성하는 방법을 알아봐요
-  icon: 📑
-  link: /architecture/index
-- title: 문장 다듬기
-  details: 자연스럽고 명확한 문장으로 정보를 전달하는 방법을 알아봐요
-  icon: ✍️  
-  link: /sentence/index
+- title: 핵심 기능
+  details: 학습 에디터, AI 복습, 대시보드, 커뮤니티 등 hiaryAI의 모든 기능을 알아보세요
+  link: /features/index
+- title: 실용 가이드
+  details: 효과적인 학습 기록 작성법과 나만의 학습 루틴 만들기
+  link: /guides/index
+- title: 자주 묻는 질문
+  details: hiaryAI 사용에 대한 궁금한 점들과 문제 해결 방법을 확인하세요
+  link: /faq/index

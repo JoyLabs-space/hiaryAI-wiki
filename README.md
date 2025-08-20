@@ -1,25 +1,31 @@
-# 테크니컬 라이팅 가이드
+# hiaryAI 사용자 가이드
 
-테크니컬 라이팅(Technical Writing)은 기술적인 내용을 정확하고 효과적으로 전달하는 글쓰기를 뜻해요. 중요한 점은 독자가 문제를 해결하고 목표를 이루도록 돕는 것이에요. 
+hiaryAI 사용법과 기능을 설명하는 공식 사용자 가이드입니다.
 
-일반적인 글쓰기는 감정이나 아이디어, 상상력을 표현해서 독자에게 감동을 주거나 새로운 관점을 제공하는 것을 목표로 하지만, 테크니컬 라이팅은 정보를 빠르고 정확하게 전달하는 데 집중해요.
+AI 기반 학습 기록 전문 블로그 플랫폼인 hiaryAI의 모든 기능을 효과적으로 활용하는 방법을 안내합니다.
 
-이 가이드에서는 현대 소프트웨어 개발에서 사용하는 테크니컬 라이팅 중 문서 작성 기본기를 다뤄요.
+## 프로젝트 구조
 
-## 🚀 바로 시작하기
+- `docs/getting-started/`: hiaryAI 시작하기 가이드
+- `docs/features/`: 핵심 기능별 상세 가이드  
+- `docs/guides/`: 실용적인 활용 방법
+- `docs/faq/`: 자주 묻는 질문과 답변
 
-### ✏️ 문서를 어떻게 작성하고, 개선하는지 알고 싶을 때
+## 로컬 개발
 
-[기본 문서 작성하기](https://technical-writing.dev/tutorial/basic-documents.html)에서 문서를 개선하는 가장 기본적인 방법을 알아보세요.
+```bash
+# 개발 서버 시작
+yarn dev
 
-### ⚡️ 문서를 빠르게 만들고 싶을 때
+# 빌드
+yarn build
 
-[AI와 함께 쓰기](https://technical-writing.dev/tutorial/review-prompt.html)에서 프롬프트 사용법을 보고 빠르게 문서를 작성해 보세요.
+# 빌드 결과 미리보기
+yarn preview
+```
 
-### 🧱 문서 구조를 짜고 싶을 때
+## 기술 스택
 
-여러 페이지로 만들어진 문서를 만들어야 한다면 [문서 구조 만들기](https://technical-writing.dev/tutorial/structure.html)를 보고 전체적인 문서 구조를 먼저 짜보세요.
-
-## 저작자
-
-- [jennybehan](https://github.com/jennybehan)
+- rspress - 정적 사이트 생성기
+- React - UI 프레임워크
+- TypeScript - 타입 안전성

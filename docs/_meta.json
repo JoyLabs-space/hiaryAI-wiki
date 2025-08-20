@@ -1,16 +1,22 @@
 [
   {
-    "text": "소개",
-    "link": "/introduction/",
-    "activeMatch": "/overview/"
+    "text": "hiaryAI 시작하기",
+    "link": "/getting-started/",
+    "activeMatch": "/getting-started/"
   },
   {
-    "text": "테크니컬 라이팅이란",
-    "link": "/overview/",
-    "activeMatch": "/hello/"
+    "text": "핵심 기능",
+    "link": "/features/",
+    "activeMatch": "/features/"
   },
   {
-    "text": "API",
-    "link": "https://rspress.dev/api/index.html"
+    "text": "실용 가이드",
+    "link": "/guides/",
+    "activeMatch": "/guides/"
+  },
+  {
+    "text": "자주 묻는 질문",
+    "link": "/faq/",
+    "activeMatch": "/faq/"
   }
 ]
