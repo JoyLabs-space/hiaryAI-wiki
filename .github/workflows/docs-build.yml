@@ -23,14 +23,11 @@ jobs:
         with:
           node-version-file: '.nvmrc'
 
-      - name: Setup yarn
-        run: corepack enable
-
       - name: Install Dependencies
-        run: yarn
+        run: npm install
 
       - name: Build Rspress
-        run: yarn build
+        run: npm run build
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
