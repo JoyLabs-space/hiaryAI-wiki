@@ -51,7 +51,7 @@ export default defineConfig({
             { label: 'AI 복습 시스템', link: '/features/review-system/' },
             { label: '게시물', link: '/features/posts/' },
             { label: '탐색 기능', link: '/features/explore/' },
-            { label: '설정 및 계정 관리', link: '/features/settings/' },
+
           ],
         },
         {
