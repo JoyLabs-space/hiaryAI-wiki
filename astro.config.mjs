@@ -48,7 +48,7 @@ export default defineConfig({
           items: [
             { label: '핵심 기능 개요', link: '/features/' },
             { label: '학습 에디터', link: '/features/editor/' },
-            { label: 'AI 복습 시스템', link: '/features/review-system/' },
+            { label: 'AI 복습 시스템 (개발 예정)', link: '/features/review-system/' },
             { label: '게시물', link: '/features/posts/' },
             { label: '탐색 기능', link: '/features/explore/' },
 
