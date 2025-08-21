@@ -131,7 +131,7 @@
     --sl-text-h3: var(--sl-text-xl) !important;
     --sl-text-h4: var(--sl-text-lg) !important;
     --sl-text-h5: var(--sl-text-base) !important;
-    --sl-content-pad-x: 3rem !important;
+    --sl-content-pad-x: 0rem !important;
     --sl-color-bg-inline-code: linear-gradient(
       45deg,
       rgba(0, 0, 0, 0.4) 0%,

@@ -12,8 +12,8 @@ AI 기반 학습 기록 전문 블로그 플랫폼입니다.
 
 ## 시작하기
 
-- **[시작하기](/getting-started/)**: hiaryAI 소개와 기본 사용법
-- **[빠른 시작](/getting-started/quick-start)**: 첫 번째 학습 기록 작성하기
+- [**시작하기**](/getting-started/): hiaryAI 소개와 기본 사용법
+- [**빠른 시작**](/getting-started/quick-start): 첫 번째 학습 기록 작성하기
 
 ## 주요 기능
 
