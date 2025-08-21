@@ -166,11 +166,6 @@ head:
 
 ## 커뮤니티와 게시물
 
-### 게시물 공유
-- **공개 설정**: 게시물을 커뮤니티에 공개할지 선택
-- **익명 공유**: 닉네임 없이 내용만 공유하는 옵션
-- **부분 공유**: 특정 섹션만 선택해서 공유
-
 ### 다른 사용자 게시물 구경
 - **게시물 피드**: 공개된 다른 사용자들의 게시물 구경
 - **영감 받기**: 비슷한 분야 학습자들의 학습 방법 참고
@@ -193,6 +188,7 @@ head:
 - 'use client' 지시어로만 Client Component 지정 가능
 
 ## 실습 코드
+
 ```javascript
 // app/page.tsx (Server Component)
 export default function HomePage() {
@@ -206,7 +202,7 @@ export default function Counter() {
   const [count, setCount] = useState(0)
   return <button onClick={() => setCount(count + 1)}>{count}</button>
 }
-```
+
 
 ## 어려웠던 점
 - 언제 Server Component를 쓰고 언제 Client Component를 써야 하는지 혼란스러움
@@ -263,7 +259,6 @@ export default function Counter() {
 게시물 기능을 활용하기 시작했다면:
 
 - [**복습 시스템**](./review-system.mdx): 게시물 기반 AI 복습 질문 활용하기
-
 - **커뮤니티**: 다른 학습자들의 게시물에서 영감 받기 (준비 중)
 
 :::tip[게시물 작성 팁]
