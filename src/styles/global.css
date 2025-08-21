@@ -138,7 +138,7 @@
       rgba(0, 0, 0, 0.2) 100%
     ) !important;
     --sl-nav-gap: 1rem !important;
-    --sl-content-width: 60rem !important;
+    --sl-content-width: 45rem !important;
   }
 
   :root[data-theme='light'] {
@@ -189,7 +189,7 @@
     --sl-content-pad-x: 3rem !important;
     --sl-color-bg-inline-code: var(--hiaryai-gray-05) !important;
     --sl-nav-gap: 1rem !important;
-    --sl-content-width: 60rem !important;
+    --sl-content-width: 45rem !important;
     --sl-content-pad-x: 1rem !important;
 
     @media (min-width: 48rem) {
@@ -444,14 +444,14 @@
     -webkit-user-select: none !important;
     -moz-user-select: none !important;
     -ms-user-select: none !important;
-    
+
     h2 {
       font-size: var(--sl-text-2xs);
       font-weight: 500;
       color: var(--hiaryai-nav-category-text);
       user-select: none !important;
     }
-    
+
     ul > li {
       padding-top: 0.3em;
       padding-bottom: 0.3em;
@@ -471,13 +471,20 @@
         -webkit-user-select: none !important;
         -moz-user-select: none !important;
         -ms-user-select: none !important;
-        
+
+        /* 텍스트가 2줄로 넘어가도록 설정 */
+        white-space: normal !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        word-break: break-word !important;
+        line-height: 1.0 !important;
+
         /* 호버 효과 */
         &:hover {
           opacity: 0.8;
           text-decoration: none;
         }
-        
+
         /* 포커스 효과 */
         &:focus {
           outline: 2px solid var(--hiaryai-primary);
