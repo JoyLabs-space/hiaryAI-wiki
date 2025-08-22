@@ -1,7 +1,5 @@
 # hiaryAI 문서 위키
 
-![hiaryAI Logo](src/assets/hiaryai-logo.svg)
-
 hiaryAI의 공식 문서 사이트입니다. AI 기반 학습 기록 플랫폼의 사용자 가이드, 기능 설명, 실용 가이드 등을 제공합니다.
 
 ## 📖 프로젝트 소개
