@@ -96,7 +96,6 @@ useEffect(() => {
  // cleanup 로직 (옵션)
  };
 }, [dependencies]); // dependency array
-```
 
 ## 중요한 깨달음
 
@@ -123,6 +122,7 @@ useEffect(() => {
 useEffect(() => {
  setCount(prev => prev + 1); // 함수형 업데이트 사용
 }, []); // 빈 배열로 한 번만 실행
+```
 ```
 
 ## 실습 예제
@@ -157,7 +157,7 @@ function outer() {
  console.log(x); // outer의 x에 접근 가능
  };
 }
-```
+
 
 ## 실제 활용 예시
 - 모듈 패턴에서의 private 변수 구현
@@ -174,7 +174,6 @@ React에서 state 업데이트가 비동기로 처리되어 예상과 다른 결
 // 문제가 된 코드
 setCount(count + 1);
 console.log(count); // 여전히 이전 값
-```
 
 ## 해결 방법
 ```javascript 
@@ -184,14 +183,14 @@ setCount(prev => {
  console.log(newCount); // 새로운 값
  return newCount;
 });
-```
+
 
 ## 배운 점
 - React state 업데이트는 비동기
 - 즉시 확인하려면 useEffect나 함수형 업데이트 활용
 ```
 
-### 언어 학습
+### 언어 학습 분야
 
 **새로운 어휘 정리:**
 ```markdown
@@ -228,7 +227,7 @@ Had + 과거분사
 - I had eaten breakfast before going to work. (더 과거)
 ```
 
-### 🔬 학술 연구 분야
+### 학술 연구 분야
 
 **논문 읽기 기록:**
 ```markdown
