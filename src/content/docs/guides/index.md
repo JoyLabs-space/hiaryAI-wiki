@@ -201,7 +201,7 @@ After (hiaryAI + 가이드 적용):
 여러분만의 독특한 활용법이나 개선 아이디어가 있다면 언제든지 공유해주세요:
 
 - 📧 **가이드 제안**: info@hiary.ai
-- **경험 공유**: [community.hiary.ai](https://community.hiary.ai)
+- **경험 공유**: [Discord](https://discord.gg/Fw79g54r)
 - **성공 사례**: info@hiary.ai
 
 ---

@@ -32,6 +32,7 @@ export default defineConfig({
         },
       ],
       customCss: ['./src/styles/global.css'],
+      favicon: '/favicon.svg',
       sidebar: [
         {
           label: '시작하기',
