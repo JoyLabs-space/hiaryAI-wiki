@@ -58,7 +58,7 @@ export default defineConfig({
           label: '실용 가이드',
           collapsed: false,
           items: [
-            { label: '실용 가이드', link: '/guides/' },
+            { label: '실용 가이드 개요', link: '/guides/' },
             { label: '효과적인 학습 기록 작성법', link: '/guides/effective-writing/' },
             { label: '나만의 학습 루틴 만들기', link: '/guides/study-routine/' },
           ],

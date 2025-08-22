@@ -1,5 +1,5 @@
 ---
-title: 실용 가이드
+title: 실용 가이드 개요
 description: 실전에서 바로 써먹을 수 있는 구체적이고 실용적인 hiaryAI 활용 방법들을 다룹니다.
 head:
   - tag: meta
