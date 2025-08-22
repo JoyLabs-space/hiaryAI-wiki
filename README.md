@@ -1,27 +1,211 @@
-# Docs
+# hiaryAI 문서 위키
 
-The documentation is generated using Astro Starlight.
+![hiaryAI Logo](src/assets/hiaryai-logo.svg)
 
-## Running the docs
+hiaryAI의 공식 문서 사이트입니다. AI 기반 학습 기록 플랫폼의 사용자 가이드, 기능 설명, 실용 가이드 등을 제공합니다.
 
-To run the docs from the root of the project run:
+## 📖 프로젝트 소개
+
+hiaryAI는 **AI 기반 학습 기록 전문 블로그 플랫폼**입니다. 망각곡선 이론을 바탕으로 한 과학적인 복습 시스템과 개인 맞춤형 학습 분석을 통해 효과적인 학습을 돕습니다.
+
+### 주요 특징
+
+- **학습 특화 블록 에디터**: 코드, 수식, 이미지를 자유롭게 조합한 체계적인 학습 기록 작성
+- **AI 기반 복습 시스템**: 망각곡선 이론 기반의 개인화된 복습 주기 및 소크라테스식 질문 생성 *(개발 예정)*
+- **데이터 기반 학습 분석**: 실시간 학습 통계와 AI 생성 학습 리포트
+- **글로벌 학습 커뮤니티**: 실시간 번역을 통한 전 세계 학습자들과의 지식 공유 *(개발 예정)*
+- **다국어 지원**: 한국어 기반 문서로 한국 사용자 중심의 경험 제공
+
+## 🚀 기술 스택
+
+- **Framework**: [Astro 5.13.0](https://astro.build/) - 고성능 정적 사이트 생성기
+- **Documentation**: [Starlight](https://starlight.astro.build/) - Astro 공식 문서 도구
+- **Styling**: [Tailwind CSS 4.0](https://tailwindcss.com/) - 유틸리티 우선 CSS 프레임워크
+- **Type Checking**: TypeScript - 타입 안전성 보장
+- **Build Tool**: Vite - 빠른 개발 서버와 빌드
+- **Image Processing**: Sharp - 고품질 이미지 최적화
+- **Deployment**: GitHub Actions를 통한 자동 배포
+
+## 📁 프로젝트 구조
+
+```
+hiaryAI-wiki/
+├── src/
+│   ├── content/docs/           # 문서 콘텐츠
+│   │   ├── features/          # 핵심 기능 설명
+│   │   ├── guides/            # 실용 가이드
+│   │   ├── getting-started/   # 시작하기
+│   │   ├── faq/               # 자주 묻는 질문
+│   │   └── index.md           # 메인 페이지
+│   ├── components/            # 재사용 가능한 컴포넌트
+│   ├── assets/               # 로고, 아이콘 등 정적 자원
+│   └── styles/               # 글로벌 스타일
+├── public/                    # 공개 정적 파일
+│   ├── favicon.svg
+│   ├── resources/            # 문서에 사용되는 이미지
+│   └── toss-logo.png
+└── astro.config.mjs          # Astro 설정 파일
+```
+
+## 🛠️ 개발 환경 설정
+
+### 요구사항
+
+- Node.js 18.0 이상
+- npm 또는 yarn
+
+### 설치 및 실행
+
+1. **레포지토리 클론**
+   ```bash
+   git clone <repository-url>
+   cd hiaryAI-wiki
+   ```
+
+2. **의존성 설치**
+   ```bash
+   npm install
+   ```
+
+3. **개발 서버 실행**
+   ```bash
+   npm run dev
+   ```
+
+4. **브라우저에서 접속**
+   ```
+   http://localhost:4321
+   ```
+
+### 사용 가능한 스크립트
 
 ```bash
+# 개발 서버 실행
 npm run dev
-```
 
-## Translating docs
-
-All of our documentation is available in Japanese. For this we use a script to translate the docs.
-
-```bash
-npm run translate
-```
-
-## Building the docs
-
-The docs are automatically built and deployed using GitHub Actions. To build them locally run:
-
-```bash
+# 프로덕션 빌드
 npm run build
+
+# 빌드 미리보기
+npm run preview
+
+# Astro CLI
+npm run astro
 ```
+
+## 📚 문서 구조
+
+### 시작하기 (Getting Started)
+- **hiaryAI 시작하기**: 플랫폼 소개와 주요 특징
+- **빠른 시작**: 첫 번째 학습 기록 작성 가이드
+- **구독 플랜 안내**: 무료/유료 플랜 비교
+
+### 핵심 기능 (Features)
+- **학습 에디터**: 블록 기반 글쓰기 도구 상세 설명
+- **AI 복습 시스템**: 망각곡선 기반 복습 기능 *(개발 예정)*
+- **대시보드**: 학습 현황 분석 및 통계
+- **커뮤니티**: 글로벌 학습자 네트워크 *(개발 예정)*
+
+### 실용 가이드 (Guides)
+- **효과적인 학습 기록 작성법**: 기억에 오래 남는 노트 작성법
+- **나만의 학습 루틴 만들기**: 개인 맞춤 학습 시스템 구축
+
+### 자주 묻는 질문 (FAQ)
+- 에디터 사용법, AI 기능, 구독/결제, 기술 지원 등
+
+## 🎨 디자인 시스템
+
+### 색상 팔레트
+- **Primary**: hiaryAI 브랜드 색상
+- **Secondary**: 보조 색상
+- **Accent**: 강조 색상
+
+### 타이포그래피
+- **본문**: 가독성 높은 한국어 폰트
+- **제목**: 계층적 타이포그래피
+- **코드**: 고정폭 폰트 (Fira Code, Source Code Pro 등)
+
+### 컴포넌트
+- **네비게이션**: 사이드바 기반 탐색
+- **콘텐츠**: 마크다운 기반 문서 렌더링
+- **인터랙티브**: 코드 예제, 이미지 갤러리
+- **UI 요소**: 버튼, 카드, 배너 등
+
+## 🌐 배포 및 호스팅
+
+### 자동 배포
+- **GitHub Actions**: 푸시 시 자동 빌드 및 배포
+- **Production URL**: https://hiary.ai
+
+### 로컬 빌드 테스트
+```bash
+# 프로덕션 빌드 생성
+npm run build
+
+# 빌드 결과 미리보기
+npm run preview
+```
+
+## 📋 기여 가이드
+
+### 문서 작성 규칙
+
+1. **한국어 우선**: 모든 문서는 한국어로 작성
+2. **마크다운 문법**: 표준 마크다운 사용
+3. **코드 예제**: 실행 가능한 코드 블록 사용
+4. **이미지 최적화**: WebP 포맷 권장, alt 텍스트 필수
+5. **SEO 최적화**: 메타 태그와 구조화된 데이터 사용
+
+### 스타일 가이드
+
+- **제목**: 계층적 구조 (# > ## > ###)
+- **목록**: 일관된 들여쓰기
+- **코드**: 언어 지정 필수 (```javascript)
+- **링크**: 상대 경로 우선
+- **이미지**: 중앙 정렬, 캡션 추가
+
+### 커밋 메시지 규칙
+
+```
+feat: 새로운 기능 추가
+fix: 버그 수정
+docs: 문서 업데이트
+style: 코드 포맷팅
+refactor: 코드 리팩토링
+```
+
+## 🔍 주요 기능 상세
+
+### 학습 에디터
+- **블록 시스템**: 텍스트, 코드, 수식, 이미지 블록
+- **슬래시 메뉴**: `/` 입력으로 빠른 블록 추가
+- **실시간 미리보기**: 작성 중인 내용 실시간 확인
+- **자동 저장**: 작성 내용 자동 백업
+
+### AI 복습 시스템 *(개발 예정)*
+- **망각곡선 기반**: 과학적 복습 주기 (1일, 3일, 7일, 2주, 1개월)
+- **소크라테스식 질문**: AI 생성 깊이 있는 복습 질문
+- **개인화 학습**: 사용자 패턴 기반 최적화
+
+### 학습 분석 대시보드
+- **실시간 통계**: 학습 시간, 작성 글 수, 복습 완료율
+- **AI 리포트**: 주간/월간 학습 패턴 분석
+- **목표 달성**: 학습 목표 설정 및 진척도 추적
+
+## 📞 지원 및 문의
+
+- **이메일**: info@hiary.ai
+- **커뮤니티**: [Discord](https://discord.gg/Fw79g54r)
+- **웹사이트**: https://hiary.ai
+
+## 📄 라이선스
+
+이 프로젝트는 MIT 라이선스 하에 배포됩니다.
+
+## 🙏 감사의 말
+
+hiaryAI 문서 위키는 사용자들의 효과적인 학습을 위해 지속적으로 발전하고 있습니다. 문서 개선에 기여해주신 모든 분들께 감사드립니다.
+
+---
+
+**hiaryAI와 함께 더 스마트한 학습을 시작해보세요!**
