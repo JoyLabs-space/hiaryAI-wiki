@@ -52,6 +52,7 @@ export default defineConfig({
             { label: 'AI 복습 시스템 (개발 예정)', link: '/features/review-system/' },
             { label: '게시물', link: '/features/posts/' },
             { label: '탐색 기능', link: '/features/explore/' },
+            { label: '커뮤니티 참여', link: '/features/community/' },
 
           ],
         },
